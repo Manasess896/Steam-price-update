@@ -29,6 +29,7 @@ jobs:
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
           PASSWORD: ${{ secrets.PASSWORD }}  # Corrected from TO_EMAIL to PASSWORD
           EMAIL: ${{ secrets.EMAIL }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
           SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
           EXCHANGE_API_KEY: ${{ secrets.EXCHANGE_API_KEY }}
         run: |
