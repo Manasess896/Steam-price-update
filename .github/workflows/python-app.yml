@@ -1,39 +1,36 @@
-# This workflow will install Python dependencies, run tests and lint with a single version of Python
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
-
-name: Python application
+name: Run Python Script
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-permissions:
-  contents: read
+    branches:
+      - main
+  workflow_dispatch:  # Allows manual triggering
 
 jobs:
-  build:
-
+  run-script:
     runs-on: ubuntu-latest
-
+    timeout-minutes: 358  # 5 hours and 58 minutes timeout
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v3
-      with:
-        python-version: "3.10"
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install flake8 pytest
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Lint with flake8
-      run: |
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Test with pytest
-      run: |
-        Main.py
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Python script
+        env:
+          TO_EMAIL: $ {{secrets.TO_EMAIL}}
+          PASSWORD: $ {{secrets.TO_EMAIL}}
+          EMAIL: $ {{secrets.EMAIL}}
+          SMTP_SERVER: $ {{secrets.SMTP_SERVER}}
+          EXCHANGE_API_KEY: $ {{ secrets.EXCHANGE_API_KEY}}
+      - name: Test with pytest
+        run: |
+         Main.py
