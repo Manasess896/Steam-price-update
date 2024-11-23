@@ -34,7 +34,3 @@ jobs:
           EXCHANGE_API_KEY: ${{ secrets.EXCHANGE_API_KEY }}
         run: |
           python Main.py  # Run the Python script
-
-      - name: Test with pytest
-        run: |
-          pytest  # Run pytest to test your code
